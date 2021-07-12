@@ -13,6 +13,7 @@ public class UserController {
 
     /**
      * restTemplate 方式负载均衡,使用默认的规则，即使用的是随机RandomRule
+     * 也可以通过别的规则
      * @return
      */
     @RequestMapping(value="/user")
