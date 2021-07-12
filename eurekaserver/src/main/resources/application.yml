@@ -1,0 +1,33 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: eureka-server
+eureka:
+  instance:
+    hostname: eurekaServerHostname #实例主机名,点击页面跳转的时候，域名，如果下面参数设置为true，则优先使用指定的ip地址
+    prefer-ip-address: true # 本客户端注册到EurekaServer上的是ip地址，服务端可以不用这个配置，如果不配置就是主机名上面的
+    #ip-address: 127.0.0.1 # 多网卡的情况下指定ip
+    #appname: myeureka #在eureka访问界面上的Application 名字
+    instance-id: eurekaServerId:${eureka.instance.ip-address}:${server.port} #erueka 界面上 Status
+  client:
+    service-url:
+      defaultZone: http://localhost:${server.port}/eureka/ #修改默认的注册地址默认端口号是8712
+    register-with-eureka: true #是否将自己注册到Eureka-Server 一般EurekaServer自己不注册自己
+    fetch-registry: false #不从eureka服务器上获取注册信息，因为是eurekaServer服务器主要功能维护客户端实例
+  server:
+
+    eviction-interval-timer-in-ms: 60000 #清理无效节点的时间间隔 ms
+    #下面2个配置尝试完成之后才会清理任务的定时操作
+    registry-sync-retries: 5 #获取及注册节点数量，如果为0 就是失败失败后再次夯实获取，尝试几次
+    registry-sync-retry-wait-ms: 30000 #上面尝试次数>0 每次睡眠多久再次尝试
+    number-of-replication-retries: 5 # 同步鸡群里服务失败的重试次数 默认为5次
+    wait-time-in-ms-when-sync-empty: 300000 # 在同步失败后等待的时间，在这段时间时，不想客户端提供服务注册信息
+    #服务端启用自动保护措施，为了防止网络异常的原因，有时网路分区的时候，在短时间内丢失了过多的客户端是，进入自我保护
+    # 措施一旦进入该模式，Eureka Server则会保护服务注册表中的信息，不在替换五部注册表中的数据，这个丢失的度是多少？
+    # 是renewal-percent-threshold
+    enable-self-preservation: true
+    renewal-percent-threshold: 0.85 #即15min内EurekaServer没有收到心跳书大于等于该配置规定的比例，可以降低比例为0.49
+myProperties:
+    clientHostname: ${spring.cloud.client.hostname}:hello
+

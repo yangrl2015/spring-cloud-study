@@ -1,0 +1,33 @@
+server:
+  port: 9090
+spring:
+  application:
+    name: serviceProvider
+eureka:
+  instance:
+    hostname: service1 #不写会自动识别
+    ip-address: 127.0.0.1 #注册服务的时候是使用的ip地址，多个网卡，指定的ip
+    prefer-ip-address: true
+    instance-id: ${eureka.instance.hostname}:${eureka.instance.ip-address}:${server.port} #默认是hostname：应用名:端口号显示在status
+    # 下面表示是服务端在这个间隔没有收到客户端发送的续约信息，则会踢出服务，这个应该比续约频率大点
+    lease-expiration-duration-in-seconds: 90 #续
+    lease-renewal-interval-in-seconds: 30 #续约，心跳时间，默认30s
+  client:
+    fetch-registry: true
+    registry-fetch-interval-seconds: 30
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://127.0.0.1:8080/eureka/
+management:
+  endpoint:
+    info:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+info:
+  app:
+    name: service1
+    version: 1.0.0
+    ip: ${eureka.instance.ip-address}
