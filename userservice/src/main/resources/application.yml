@@ -7,3 +7,7 @@ eureka:
   client:
     service-url:
       defaultZone: http://localhost:8080/eureka
+SERVICEPROVIDER: #指定的服务名称
+  ribbon:
+   # NFLoadBanlancerRuleClassName: com.netflix.loadbalancer.RandomRule# 实现IRule实现类
+    NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RoundRobinRule # 实现IRule实现类
