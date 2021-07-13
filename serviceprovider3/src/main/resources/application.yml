@@ -1,0 +1,16 @@
+server:
+  port: 9093
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8080/eureka/
+    fetch-registry: true
+    register-with-eureka: true
+  instance:
+    hostname: serviceProvider3
+    ip-address: 127.0.0.1
+    prefer-ip-address: true
+    instance-id: ${eureka.instance.hostname}:${eureka.instance.ip-address}:${server.port}
+spring:
+  application:
+    name: serviceProvider3

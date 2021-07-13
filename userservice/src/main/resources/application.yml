@@ -20,9 +20,10 @@ SERVICEPROVIDER: #指定的服务名称
     listOfServers: localhost:9090 #当使用ribbon.eureka.enable 为false的时候
     ConnectTimeout: 2000 #单位ms 默认1000ms 请求连接的时间
     ReadTimeout: 2000 #单位ms，默认1000ms，请求处理的时间，从服务端读取可用资源的时间
-    OkToRetryOnAllOperation: true #对所有请求操作都进行重试，这是在服务下面也可以对所有的服务设置
+    OkToRetryOnAllOperations: true #对所有请求操作都进行重试，这是在服务下面也可以对所有的服务设置
     MaxAutoRetriesNextServer: 2 #切换实例次数
     MaxAutoRetries: 1 #每个实例尝试次数
+ #   retryableStatusCode: 500,404,502
 
 
 ## Ribbon全局参数
@@ -31,17 +32,19 @@ ribbon:
     enabled: true #默认为true 使用eureka获取的服务信息,一般设置false 配合服务列表
   ReadTimeout: 1000
   ConnectTimeout: 1000
-  restclient: true
+
 hystrix:
   command:
     default:
       execution:
         timeout:
-          enabled: true
+          enabled: flase # 一般如果取出hystrix熔断机制则设置false
         isolation:
           thread:
-            timeoutInMillseconds: 5000 #d断路器额度超时时间
-
+            timeoutInMillseconds: 5000 #d断路器额度超时时间，一般熔断时间>ReadTimeout+ConnectTimeout
+logging:
+  level:
+    root: debug #将日志设置为debug模式能够看到日志的具体重试次数
 
 
 
