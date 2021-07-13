@@ -21,4 +21,16 @@ public class HelloController {
         logger.debug("sayHello debug");
         return "service provider 1 hello:"+port;
     }
+
+    /**
+     * 制造超时测试readTimeout，
+     * @return
+     */
+    @RequestMapping(value = "/sayHelloTimeout")
+    public String sayHelloTimeout() throws InterruptedException {
+        logger.info("sayHelloTimeout info");
+        logger.debug("sayHelloTimeout debug");
+        Thread.sleep(5000);
+        return "service timeout provider 1 hello:"+port;
+    }
 }

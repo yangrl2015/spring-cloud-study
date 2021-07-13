@@ -1,13 +1,47 @@
 spring:
   application:
     name: userservice
+  cloud:
+    loadbalancer:
+      retry:
+        enabled: true #设置开启重试机制
 server:
   port: 7071
 eureka:
   client:
     service-url:
       defaultZone: http://localhost:8080/eureka
+#Ribbon配置信息
+
 SERVICEPROVIDER: #指定的服务名称
   ribbon:
    # NFLoadBanlancerRuleClassName: com.netflix.loadbalancer.RandomRule# 实现IRule实现类
-    NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RoundRobinRule # 实现IRule实现类
+    NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RoundRobinRule     # 实现IRule实现类
+    listOfServers: localhost:9090 #当使用ribbon.eureka.enable 为false的时候
+    ConnectTimeout: 2000 #单位ms 默认1000ms 请求连接的时间
+    ReadTimeout: 2000 #单位ms，默认1000ms，请求处理的时间，从服务端读取可用资源的时间
+    OkToRetryOnAllOperation: true #对所有请求操作都进行重试，这是在服务下面也可以对所有的服务设置
+    MaxAutoRetriesNextServer: 2 #切换实例次数
+    MaxAutoRetries: 1 #每个实例尝试次数
+
+
+## Ribbon全局参数
+ribbon:
+  eureka:
+    enabled: true #默认为true 使用eureka获取的服务信息,一般设置false 配合服务列表
+  ReadTimeout: 1000
+  ConnectTimeout: 1000
+  restclient: true
+hystrix:
+  command:
+    default:
+      execution:
+        timeout:
+          enabled: true
+        isolation:
+          thread:
+            timeoutInMillseconds: 5000 #d断路器额度超时时间
+
+
+
+

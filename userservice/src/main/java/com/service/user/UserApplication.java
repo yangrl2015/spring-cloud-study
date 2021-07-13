@@ -8,8 +8,18 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
+import org.springframework.cloud.netflix.ribbon.RibbonClient;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.client.ClientHttpRequest;
+import org.springframework.http.client.ClientHttpRequestFactory;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
+import org.springframework.http.client.SimpleClientHttpRequestFactory;
+import org.springframework.retry.annotation.EnableRetry;
 import org.springframework.web.client.RestTemplate;
+
+import java.io.IOException;
+import java.net.URI;
 
 @SpringBootApplication
 /**@EnableDiscoveryClient和@EnableEurekaClient 区别：
@@ -19,7 +29,7 @@ import org.springframework.web.client.RestTemplate;
  *
  */
 @EnableDiscoveryClient
-
+@EnableRetry
 public class UserApplication {
     public static void main(String[] args) {
         SpringApplication.run(UserApplication.class, args);
@@ -27,7 +37,12 @@ public class UserApplication {
     @Bean
     @LoadBalanced
     public RestTemplate restTemplate(){
-        return new RestTemplate();
+        //SimpleClientHttpRequestFactory simpleClientHttpRequestFactory = new SimpleClientHttpRequestFactory();
+        HttpComponentsClientHttpRequestFactory httpComponentsClientHttpRequestFactory = new HttpComponentsClientHttpRequestFactory();
+        httpComponentsClientHttpRequestFactory.setConnectTimeout(5000);
+        httpComponentsClientHttpRequestFactory.setReadTimeout(5000);
+
+        return new RestTemplate(httpComponentsClientHttpRequestFactory);
     }
 
     /**

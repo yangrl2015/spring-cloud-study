@@ -1,16 +1,24 @@
 package com.service.user.controller;
 
 
+import com.netflix.appinfo.InstanceInfo;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.netflix.ribbon.RibbonClient;
+import org.springframework.cloud.client.ServiceInstance;
+import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
+
+import java.util.List;
 
 @RestController
 public class UserController {
     @Autowired
     private RestTemplate restTemplate;
+    //注意这里是spring cloud的discoveryclient 不是netflix的
+    @Autowired
+    private DiscoveryClient discoveryClient;
 
     /**
      * restTemplate 方式负载均衡,使用默认的规则，即使用的是随机RandomRule
@@ -31,4 +39,46 @@ public class UserController {
         return reponse;
 
     }
+
+    /**
+     * 过时请求数据
+     * @return
+     */
+    @RequestMapping(value="/userTimeout")
+    public String sayHelloTimeout(){
+        System.out.println("service user time out ");
+        String reponse = restTemplate.getForObject("http://SERVICEPROVIDER/sayHelloTimeout", String.class);
+
+        return reponse;
+
+    }
+    /**
+     * 通过discovery获取服务实例信息
+     * @return
+     */
+    @RequestMapping(value="/discovery")
+    public String discoveryService(){
+        System.out.println("discoveryService user time out ");
+        List<ServiceInstance> serviceInstances =  discoveryClient.getInstances("SERVICEPROVIDER");
+        serviceInstances.stream().forEach(instanceInfo -> {
+            System.out.println("instanceId:"+instanceInfo.getInstanceId()+ ",port:"+instanceInfo.getPort()+ ",url:"+instanceInfo.getUri());
+        });
+
+        return "discovery";
+
+    }
+
+    /**
+     * 通过discovery获取服务实例信息
+     * @return
+     */
+    @RequestMapping(value="/retry")
+    public String retry(){
+        System.out.println("service user time retry ");
+        String reponse = restTemplate.getForObject("http://SERVICEPROVIDER/sayHelloTimeout2", String.class);
+
+        return "reponse:"+reponse+",retry";
+
+    }
+
 }
