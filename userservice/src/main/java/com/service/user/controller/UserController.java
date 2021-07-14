@@ -75,9 +75,22 @@ public class UserController {
     @RequestMapping(value="/retry")
     public String retry(){
         System.out.println("service user time retry ");
-        String reponse = restTemplate.getForObject("http://SERVICEPROVIDER/sayHelloTimeout2", String.class);
+        String reponse = restTemplate.getForObject("http://SERVICEPROVIDER/sayHello", String.class);
 
         return "reponse:"+reponse+",retry";
+
+    }
+
+    /**
+     * service3服务
+     * @return
+     */
+    @RequestMapping(value="/service3")
+    public String service3sayHello(){
+        System.out.println("service3 user time retry ");
+        String reponse = restTemplate.getForObject("http://SERVICEPROVIDER/sayHello", String.class);
+
+        return "service 3 reponse:"+reponse+",retry";
 
     }
 

@@ -13,7 +13,7 @@ eureka:
       defaultZone: http://localhost:8080/eureka
 #Ribbon配置信息
 
-SERVICEPROVIDER: #指定的服务名称
+SERVICEPROVIDER3: #指定的服务名称
   ribbon:
    # NFLoadBanlancerRuleClassName: com.netflix.loadbalancer.RandomRule# 实现IRule实现类
     NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RoundRobinRule     # 实现IRule实现类
@@ -44,7 +44,7 @@ hystrix:
             timeoutInMillseconds: 5000 #d断路器额度超时时间，一般熔断时间>ReadTimeout+ConnectTimeout
 logging:
   level:
-    root: debug #将日志设置为debug模式能够看到日志的具体重试次数
+    root: info #将日志设置为debug模式能够看到日志的具体重试次数
 
 
 

@@ -1,1 +1,7 @@
 # Created by .ignore support plugin (hsz.mobi)
+.idea/
+eurekaserver/eureka-server.iml
+serviceprovider/service-provider.iml
+serviceprovider2/service-provider2.iml
+serviceprovider3/service-provider3.iml
+userservice/target/

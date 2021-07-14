@@ -1,9 +1,10 @@
 package com.service.user.configuration;
 
-import org.springframework.boot.autoconfigure.AutoConfigureAfter;
+import com.service.user.annotation.ExcludeClass;
 import org.springframework.context.annotation.Configuration;
-
-@AutoConfigureAfter(name="com.service.user.configuration.BeforeClass")
+//下面注释
+//@AutoConfigureAfter(name="com.service.user.configuration.BeforeClass")
+@ExcludeClass
 @Configuration
 public class AfterClassConfiguration {
     public AfterClassConfiguration(){
