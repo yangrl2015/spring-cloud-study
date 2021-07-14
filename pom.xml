@@ -9,6 +9,7 @@
         <module>serviceprovider2</module>
         <module>userservice</module>
         <module>serviceprovider3</module>
+        <module>servicefegin</module>
     </modules>
     <!--<parent>-->
     <!--<groupId>org.springframework.boot</groupId>-->

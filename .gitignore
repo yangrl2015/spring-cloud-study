@@ -5,3 +5,10 @@ serviceprovider/service-provider.iml
 serviceprovider2/service-provider2.iml
 serviceprovider3/service-provider3.iml
 userservice/target/
+eurekaserver/target/
+servicefegin/src/test/
+servicefegin/target/
+serviceprovider/target/
+serviceprovider2/target/
+serviceprovider3/target/
+*.iml

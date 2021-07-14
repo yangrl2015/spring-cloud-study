@@ -1,0 +1,51 @@
+spring:
+  application:
+    name: feignService # 应用名称 eureka服务器Status字段代表
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8080/eureka/ #eureka 服务器注册地址
+    fetch-registry: true #是否获取eureka注册信息(可能是别的服务)
+    registry-fetch-interval-seconds: 30 #拉取注册信息的频率
+    register-with-eureka: true #是否将自己注册到eureka 服务器上
+  instance:
+    ip-address: 127.0.0.1 # 实例注册ip
+    prefer-ip-address: true # 有ip地址，优先使用ip
+    instance-id: ${spring.application.name}:${eureka.instance.ip-address}:${server.port} #实例id 在eureka注册地址上	Status
+server:
+  port: 10010
+feign:
+  hystrix:
+    enabled: true # 开启feign找那个的hytrix熔断，feign中默认有熔断机制，即调用接口失败会处理fallback或者fallbackfactory回调方法
+  client:
+    config:
+      default:
+        readTimeout: 3000 # feign处理数据的时间，default默认全局的，接口时间t在timeoutInMilliseconds>t>readTimeout也会熔断
+        connectTimeout: 2000
+        loggerLevel: FULL #feign日志打开，默认None 不输出
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 7000 #熔断全局超时配置
+logging:
+  level:
+    com.fegin.client.service.IServiceProviderServiceWithFallbackFactory: debug #类级别设置日志为debug
+    com.fegin.client.service.IServiceProviderService: debug
+    org.springframework.retry.support.RetryTemplate: debug #设置重试机制的日志为debug，spring-retry
+# 下面结合ribbon实现负载均衡,feign 默认使用robbin进行负载均衡的，只需引入对应的依赖和配置下面
+ribbon:
+  eureka:
+    enabled: true
+SERVICEPROVIDER:
+  ribbon:
+    ConnectionTimeout: 2000
+    ReadTimeout: 2000
+    MaxAutoRetries: 2
+    MaxAutoRetriesNextServer: 2
+    OkToRetryOnAllOperations: true #对所有请求操作都进行重试，这是在服务下面也可以对所有的服务设置
+
+
+
