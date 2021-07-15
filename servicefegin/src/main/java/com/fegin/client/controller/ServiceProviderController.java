@@ -1,5 +1,6 @@
 package com.fegin.client.controller;
 
+import com.fegin.client.service.IServiceProvider3Service;
 import com.fegin.client.service.IServiceProviderService;
 import com.fegin.client.service.IServiceProviderServiceWithFallbackFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +14,8 @@ public class ServiceProviderController {
     private IServiceProviderService iServiceProviderService;
     @Autowired
     private IServiceProviderServiceWithFallbackFactory iServiceProviderServiceWithFallbackFactory;
-
+    @Autowired
+    private IServiceProvider3Service iServiceProvider3Service;
     @RequestMapping(value="sayHello")
     public String sayHello(){
 
@@ -39,6 +41,20 @@ public class ServiceProviderController {
         String reponse = iServiceProviderServiceWithFallbackFactory.sayHelloTimeout();
 
         System.out.println("feign client invoker sayHello Timeout");
+        return reponse;
+
+    }
+
+    /**
+     * 调用service3
+     * @return
+     */
+    @RequestMapping(value="sayHelloTimeoutFromService3")
+    public String sayHelloTimeoutFromService3(){
+
+        String reponse = iServiceProvider3Service.sayHelloTimeout();
+
+        System.out.println("feign client invoker sayHello Timeout from service 3");
         return reponse;
 
     }

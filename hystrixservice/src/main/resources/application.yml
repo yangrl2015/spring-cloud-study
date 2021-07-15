@@ -1,0 +1,30 @@
+server:
+  port: 10011
+spring:
+  application:
+    name: hystrix-service
+  cloud:
+    circuitbreaker:
+      hystrix:
+        enabled: true
+eureka:
+  instance:
+    ip-address: 127.0.0.1
+    prefer-ip-address: true
+    instance-id: ${spring.application.name}:${eureka.instance.ip-address}:${server.port}
+    hostname: localhost
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8080/eureka/
+hystrix:
+  threadpool:
+    default:
+      allowMaximumSizeToDivergeFromCoreSize: true
+      maximumSize: 2 # 设置全局的接口调用处理的线程
+      coreSize: 2 #当这里与@HystrixCommand中的冲突的时候，@HystrixCommand优先级高
+  timer:
+    threadpool:
+      default:
+       coreSize: 2 #设置hytrixtimer 线程的个数，这个线程是处理fallback的线程

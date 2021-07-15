@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 /**
  * 注解fallback和fallbackFactory区别是发生熔断之后，factory会获取具体的错误信息
  * 一般fallback使用的是降级 fallbackfactory 使用的是降级
+ * 和IServiceProvider3Service 冲突，所以注释，因为@FeignClient的name
  */
 @FeignClient(name="SERVICEPROVIDER3", fallbackFactory = ServiceProviderFallbackFactory.class)
 public interface IServiceProviderServiceWithFallbackFactory {

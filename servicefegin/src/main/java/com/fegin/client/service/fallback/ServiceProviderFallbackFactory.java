@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 /**
  * 实现FallbackFactory工厂可以具体的调用错误信息
+ * 注释了IServiceProviderServiceWithFallbackFactory 这里也注释掉
  */
 @Component
 public class ServiceProviderFallbackFactory implements FallbackFactory<IServiceProviderServiceWithFallbackFactory> {

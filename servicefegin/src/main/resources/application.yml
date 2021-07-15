@@ -35,6 +35,8 @@ logging:
     com.fegin.client.service.IServiceProviderServiceWithFallbackFactory: debug #类级别设置日志为debug
     com.fegin.client.service.IServiceProviderService: debug
     org.springframework.retry.support.RetryTemplate: debug #设置重试机制的日志为debug，spring-retry
+    org.apache.http: debug #设置apache http日志为debug，可以查看feign自带的attempt retry
+    #root: debug
 # 下面结合ribbon实现负载均衡,feign 默认使用robbin进行负载均衡的，只需引入对应的依赖和配置下面
 ribbon:
   eureka:

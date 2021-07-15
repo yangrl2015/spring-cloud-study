@@ -10,6 +10,7 @@
         <module>userservice</module>
         <module>serviceprovider3</module>
         <module>servicefegin</module>
+        <module>hystrixservice</module>
     </modules>
     <!--<parent>-->
     <!--<groupId>org.springframework.boot</groupId>-->
